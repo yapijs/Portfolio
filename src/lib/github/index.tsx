@@ -8,6 +8,7 @@ export const getContributions = async (username: string) => {
     query: `query {
             user(login: "${username}") {
               name
+              avatarUrl
               contributionsCollection {
                 contributionCalendar {
                   colors
@@ -21,7 +22,27 @@ export const getContributions = async (username: string) => {
                   }
                 }
               }
-              repositories(first: 2, orderBy: {field: CREATED_AT, direction: DESC}) {
+            }
+          }`,
+  };
+  const response = await fetch("https://api.github.com/graphql", {
+    method: "POST",
+    body: JSON.stringify(body),
+    headers: headers,
+  });
+  const data = await response.json();
+  return data;
+};
+
+
+export const getRepositories = async (username: string) => {
+  const headers = {
+    Authorization: `bearer ${key}`,
+  };
+  const body = {
+    query: `query {
+            user(login: "${username}") {
+              repositories(first: 15, orderBy: {field: CREATED_AT, direction: DESC}) {
                 edges {
                   node {
                     name
@@ -37,7 +58,6 @@ export const getContributions = async (username: string) => {
                         yml: file(path: "portfolio.yml") {
                           object {
                             ... on Blob {
-                              isBinary
                               text
                             }
                           }
@@ -45,7 +65,6 @@ export const getContributions = async (username: string) => {
                         readme: file(path: "portfolio/README.md") {
                           object {
                             ... on Blob {
-                              isBinary
                               text
                             }
                           }
