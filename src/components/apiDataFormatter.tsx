@@ -1,6 +1,3 @@
-import console from "console";
-import { read } from "fs";
-import { url } from "inspector";
 
 interface Node {
   name: string;
@@ -12,10 +9,10 @@ interface Node {
 }
 
 interface Yml {
-  object: {text: String};
+  object: {text: string};
 }
 interface Readme {
-  object: {text: String};
+  object: {text: string};
 }
 
 interface Languages {
@@ -28,7 +25,7 @@ interface Edges {
 
 export interface Repository {
   name: string;
-  // description: string;
+  description: string;
   // imageUrl: string;
   // badgesUrl: string[];
 }
@@ -52,12 +49,9 @@ export const parseJsonRepository = (json: any): Repository[] => {
     });
     
     const url: string = "https://avatars.githubusercontent.com/u/81233726?s=400&u=7cca94bd773bee2e6dd768936e642b464dbd6fcd&v=4";
-    return {name: data.name}
+    return {name: data.name, description: ymlFile.object.text}
   })
-  
-  // dataFiltered.forEach(element => {
-  //   console.log(element);
-  // });
+
 
   return dataFiltered;
 };

@@ -2,12 +2,14 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../../styles/Home.module.css";
 import React from "react";
-import { Card, Col, Row } from "antd";
 import { getContributions, getRepositories } from "../lib/github";
 import ActivityCalendar from "react-activity-calendar";
 import ReactTooltip from "react-tooltip";
-import { parseJsonRepository, Repository } from "../components/apiDataFormatter";
-import renderProjectCards from "../components/cards";
+import {
+  parseJsonRepository,
+  Repository,
+} from "../components/apiDataFormatter";
+import { ProjectCards } from "../components/cards";
 
 interface Weeks {
   contributionDays: RawContributionDays[];
@@ -55,7 +57,6 @@ function getContributionLevel(level: ContributionLevel): Level {
   return levelNum;
 }
 
-
 interface Props {
   username: string;
   avatarUrl: string;
@@ -93,12 +94,10 @@ export async function getServerSideProps() {
         rawContributionData.data.user.contributionsCollection
           .contributionCalendar.totalContributions,
       dataContributions: formattedContributionDays,
-      repositories: parseJsonRepository(rawRepoData)
+      repositories: parseJsonRepository(rawRepoData),
     },
   };
 }
-
-const { Meta } = Card;
 
 export default function Home(props: Props) {
   return (
@@ -149,19 +148,8 @@ export default function Home(props: Props) {
             <ReactTooltip html />
           </ActivityCalendar>
         </div>
-          
-        
 
-
-        <div className="site-card-wrapper">
-          <Row gutter={16}>
-                        <Col span={8}>
-              <Card title="Card title" bordered={false}>
-                Card content
-              </Card>
-            </Col>
-          </Row>
-        </div>
+        <ProjectCards repositories={props.repositories}></ProjectCards>
       </main>
     </div>
   );
