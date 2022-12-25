@@ -5,10 +5,7 @@ import React from "react";
 import { getContributions, getRepositories } from "../lib/github";
 import ActivityCalendar from "react-activity-calendar";
 import ReactTooltip from "react-tooltip";
-import {
-  parseJsonRepository,
-  Repository,
-} from "../components/apiDataFormatter";
+import { parseJsonRepository, Repository } from "../lib/github/repoDataMapping";
 import { ProjectCards } from "../components/cards";
 import { useRouter } from "next/router";
 
@@ -102,7 +99,7 @@ export async function getServerSideProps() {
 
 export default function Home(props: Props) {
   const router = useRouter();
-  
+
   return (
     <div className={styles.container}>
       <Head>
@@ -152,7 +149,10 @@ export default function Home(props: Props) {
           </ActivityCalendar>
         </div>
 
-        <ProjectCards repositories={props.repositories} onClick={(name) => router.push("/"+ name)}></ProjectCards>
+        <ProjectCards
+          repositories={props.repositories}
+          onClick={(name) => router.push("/" + name)}
+        ></ProjectCards>
       </main>
     </div>
   );

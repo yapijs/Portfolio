@@ -1,5 +1,5 @@
-import { Repository } from "./apiDataFormatter";
-import { Card, Col, Row, Button, Space } from "antd";
+import { Repository } from "../lib/github/repoDataMapping";
+import { Card, Col, Row, Button, Space, Image } from "antd";
 
 interface Props {
   repositories: Repository[];
@@ -13,7 +13,19 @@ export const ProjectCards = ({ repositories, onClick }: Props): JSX.Element => {
         {repositories.map((repo) => (
           <Row key="card" gutter={16}>
             <Col span={8}>
-              <Card title={repo.name} bordered={false} style={{ width: 300 }}>
+              <Card
+                title={repo.name}
+                bordered={false}
+                style={{ width: 300 }}
+                cover={
+                  <Image
+                    width={200}
+                    height={200}
+                    src={repo.urlImageSmall}
+                    alt="error"
+                  />
+                }
+              >
                 {repo.description}
                 <Space direction="vertical" style={{ width: "100%" }}>
                   <Button
