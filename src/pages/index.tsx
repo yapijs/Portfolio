@@ -10,6 +10,7 @@ import {
   Repository,
 } from "../components/apiDataFormatter";
 import { ProjectCards } from "../components/cards";
+import { useRouter } from "next/router";
 
 interface Weeks {
   contributionDays: RawContributionDays[];
@@ -100,6 +101,8 @@ export async function getServerSideProps() {
 }
 
 export default function Home(props: Props) {
+  const router = useRouter();
+  
   return (
     <div className={styles.container}>
       <Head>
@@ -149,7 +152,7 @@ export default function Home(props: Props) {
           </ActivityCalendar>
         </div>
 
-        <ProjectCards repositories={props.repositories}></ProjectCards>
+        <ProjectCards repositories={props.repositories} onClick={(name) => router.push("/"+ name)}></ProjectCards>
       </main>
     </div>
   );
