@@ -3,60 +3,14 @@ import Image from "next/image";
 import styles from "../../styles/Home.module.css";
 import React from "react";
 import { getContributions, getRepositories } from "../lib/github";
-import ActivityCalendar from "react-activity-calendar";
-import ReactTooltip from "react-tooltip";
 import {
   parseJsonRepository,
   Repository,
 } from "../lib/github/getRepositoriesMapping";
 import { ProjectCards } from "../components/cards";
 import { useRouter } from "next/router";
-
-interface Weeks {
-  contributionDays: RawContributionDays[];
-}
-
-interface RawContributionDays {
-  contributionCount: number;
-  date: string;
-  contributionLevel: ContributionLevel;
-}
-
-interface DataContributions {
-  date: string;
-  count: number;
-  level: Level;
-}
-
-type ContributionLevel =
-  | "NONE"
-  | "FIRST_QUARTILE"
-  | "SECOND_QUARTILE"
-  | "THIRD_QUARTILE"
-  | "FORTH_QUARTILE";
-
-type Level = 0 | 1 | 2 | 3 | 4;
-
-function getContributionLevel(level: ContributionLevel): Level {
-  let levelNum: Level = 0;
-  switch (level) {
-    case "NONE":
-      break;
-    case "FIRST_QUARTILE":
-      levelNum = 1;
-      break;
-    case "SECOND_QUARTILE":
-      levelNum = 2;
-      break;
-    case "THIRD_QUARTILE":
-      levelNum = 3;
-      break;
-    case "FORTH_QUARTILE":
-      levelNum = 4;
-      break;
-  }
-  return levelNum;
-}
+import reformatWeeks, { DataContributions, Weeks } from "../lib/calendar/calendar";
+import MyCalendar from "../components/calendar";
 
 interface Props {
   username: string;
@@ -73,27 +27,17 @@ export async function getServerSideProps() {
   const allWeeks: Weeks[] =
     rawContributionData.data.user.contributionsCollection.contributionCalendar
       .weeks;
+  const totalContributions =
+    rawContributionData.data.user.contributionsCollection.contributionCalendar
+      .totalContributions;
 
-  const formattedContributionDays: DataContributions[] = allWeeks
-    .flatMap((weeks) => {
-      return weeks.contributionDays;
-    })
-    .filter((day) => day.date >= "2022-01-01")
-    .map((day) => {
-      return {
-        date: day.date,
-        count: day.contributionCount,
-        level: getContributionLevel(day.contributionLevel),
-      };
-    });
+  const formattedContributionDays: DataContributions[] =
+    reformatWeeks(allWeeks);
 
   return {
     props: {
       username: rawContributionData.data.user.name,
       avatarUrl: rawContributionData.data.user.avatarUrl,
-      totalContributions:
-        rawContributionData.data.user.contributionsCollection
-          .contributionCalendar.totalContributions,
       dataContributions: formattedContributionDays,
       repositories: parseJsonRepository(rawRepoData),
     },
@@ -119,38 +63,8 @@ export default function Home(props: Props) {
           width={400}
           height={400}
         />
-        <div>
-          <ActivityCalendar
-            data={props.dataContributions}
-            color="#86f352"
-            labels={{
-              legend: {
-                less: "Less",
-                more: "More",
-              },
-              months: [
-                "Jan",
-                "Feb",
-                "Mar",
-                "Apr",
-                "May",
-                "Jun",
-                "Jul",
-                "Aug",
-                "Sep",
-                "Oct",
-                "Nov",
-                "Dec",
-              ],
-              tooltip: "<strong>{{count}} contributions</strong> on {{date}}",
-              totalCount: "{{count}} contributions in {{year}}",
-              weekdays: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-            }}
-            weekStart={1}
-          >
-            <ReactTooltip html />
-          </ActivityCalendar>
-        </div>
+
+      <MyCalendar contributions={props.dataContributions}></MyCalendar>
 
         <ProjectCards
           repositories={props.repositories}
