@@ -5,7 +5,10 @@ import React from "react";
 import { getContributions, getRepositories } from "../lib/github";
 import ActivityCalendar from "react-activity-calendar";
 import ReactTooltip from "react-tooltip";
-import { parseJsonRepository, Repository } from "../lib/github/repoDataMapping";
+import {
+  parseJsonRepository,
+  Repository,
+} from "../lib/github/getRepositoriesMapping";
 import { ProjectCards } from "../components/cards";
 import { useRouter } from "next/router";
 

@@ -1,4 +1,4 @@
-import { Repository } from "../lib/github/repoDataMapping";
+import { Repository } from "../lib/github/getRepositoriesMapping";
 import { Card, Col, Row, Button, Space, Image } from "antd";
 
 interface Props {
@@ -23,6 +23,8 @@ export const ProjectCards = ({ repositories, onClick }: Props): JSX.Element => {
                     height={200}
                     src={repo.urlImageSmall}
                     alt="error"
+                    preview={false}
+                    fallback="/error.png"
                   />
                 }
               >

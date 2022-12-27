@@ -85,3 +85,44 @@ export const getRepositories = async (username: string) => {
   const data = await response.json();
   return data;
 };
+
+export const getRepositoryData = async (username: string, repositoryName: string) => {
+  const headers = {
+    Authorization: `bearer ${key}`,
+  };
+  const body = {
+    query: `query {
+            user(login: "${username}") {
+              repository(name: "${repositoryName}") {
+                name
+                languages(orderBy: {field: SIZE, direction: DESC}, first: 5) {
+                  edges {
+                    node {
+                      name
+                    }
+                  }
+                }
+                object(expression: "HEAD") {
+                  ... on Commit {
+                    readme: file(path: "portfolio/README.md") {
+                      object {
+                        ... on Blob {
+                          text
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }`,
+  };
+  const response = await fetch("https://api.github.com/graphql", {
+    method: "POST",
+    body: JSON.stringify(body),
+    headers: headers,
+  });
+  const data = await response.json();
+  return data;
+};
+
