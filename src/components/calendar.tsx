@@ -2,7 +2,7 @@ import ActivityCalendar from "react-activity-calendar";
 import ReactTooltip from "react-tooltip";
 import { DataContributions } from "../lib/calendar/calendar";
 
-const CONTRIBUTIONS_COLOR: string = "#495c6a";
+const CONTRIBUTIONS_COLOR: string = "#f973";
 
 interface Props {
   contributions: DataContributions[];
