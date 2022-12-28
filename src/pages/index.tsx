@@ -1,5 +1,4 @@
 import Head from "next/head";
-import Image from "next/image";
 import styles from "../../styles/Home.module.css";
 import React from "react";
 import { getContributions, getRepositories } from "../lib/github";
@@ -14,6 +13,10 @@ import reformatWeeks, {
   Weeks,
 } from "../lib/calendar/calendar";
 import MyCalendar from "../components/calendar";
+import { Typography, Col, Row } from "antd";
+
+// const style: React.CSSProperties = { background: "#0092ff", padding: "8px 0px" };
+const { Title, Text } = Typography;
 
 interface Props {
   username: string;
@@ -59,10 +62,34 @@ export default function Home(props: Props) {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>{props.username}</h1>
-        <Image src="/me.png" width={420} height={280} alt="" />
-
-        <MyCalendar contributions={props.dataContributions}></MyCalendar>
+        <Row
+          className="row"
+          justify={"space-between"}
+          gutter={[24, { xs: 8, md: 24 }]}
+        >
+          <Col className="col" flex="auto">
+            <div
+              className="profile-pic"
+              style={{
+                width: 400,
+                height: 400,
+                backgroundImage: `url("/me.png")`,
+                borderRadius: 8,
+                backgroundPositionX: -100,
+                backgroundSize: "cover",
+              }}
+            ></div>
+          </Col>
+          <Col className={styles.userData}>
+            <div className={styles.userText}>
+              <Text className={styles.title}>{props.username}</Text>
+              <Text className={styles.description}>
+                Some text describing me
+              </Text>
+            </div>
+            <MyCalendar contributions={props.dataContributions}></MyCalendar>
+          </Col>
+        </Row>
 
         <ProjectCards
           repositories={props.repositories}
