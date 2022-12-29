@@ -13,7 +13,7 @@ import reformatWeeks, {
   Weeks,
 } from "../lib/calendar/calendar";
 import MyCalendar from "../components/calendar";
-import { Typography, Col, Row } from "antd";
+import { Typography, Col, Row, Space } from "antd";
 
 // const style: React.CSSProperties = { background: "#0092ff", padding: "8px 0px" };
 const { Title, Text } = Typography;
@@ -62,39 +62,41 @@ export default function Home(props: Props) {
       </Head>
 
       <main className={styles.main}>
-        <Row
-          className="row"
-          justify={"space-between"}
-          gutter={[24, { xs: 8, md: 24 }]}
-        >
-          <Col className="col" flex="auto">
-            <div
-              className="profile-pic"
-              style={{
-                width: 400,
-                height: 400,
-                backgroundImage: `url("/me.png")`,
-                borderRadius: 8,
-                backgroundPositionX: -100,
-                backgroundSize: "cover",
-              }}
-            ></div>
-          </Col>
-          <Col className={styles.userData}>
-            <div className={styles.userText}>
-              <Text className={styles.title}>{props.username}</Text>
-              <Text className={styles.description}>
-                Some text describing me
-              </Text>
-            </div>
-            <MyCalendar contributions={props.dataContributions}></MyCalendar>
-          </Col>
-        </Row>
+        <Space direction="vertical" align="center" size="large">
+          <Row
+            className="row"
+            justify={"space-between"}
+            gutter={[24, { xs: 8, md: 24 }]}
+          >
+            <Col className="col" flex="auto">
+              <div
+                className="profile-pic"
+                style={{
+                  width: 400,
+                  height: 400,
+                  backgroundImage: `url("/me.png")`,
+                  borderRadius: 8,
+                  backgroundPositionX: -100,
+                  backgroundSize: "cover",
+                }}
+              ></div>
+            </Col>
+            <Col className={styles.userData}>
+              <div className={styles.userText}>
+                <Text className={styles.title}>{props.username}</Text>
+                <Text className={styles.description}>
+                  Some text describing me
+                </Text>
+              </div>
+              <MyCalendar contributions={props.dataContributions}></MyCalendar>
+            </Col>
+          </Row>
 
-        <ProjectCards
-          repositories={props.repositories}
-          onClick={(name) => router.push("/" + name)}
-        ></ProjectCards>
+          <ProjectCards
+            repositories={props.repositories}
+            onClick={(name) => router.push("/" + name)}
+          ></ProjectCards>
+        </Space>
       </main>
     </div>
   );
