@@ -4,11 +4,11 @@
 
 .main {
   min-height: 100vh;
+  min-width: 400px;
   padding: 4rem 0;
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 }
 
@@ -20,8 +20,6 @@
 .title,
 .description {
   color: #fff3e9;
-  text-align: left;
-  margin: 0 0 1.5rem 1rem;
 }
 
 .description {
@@ -29,13 +27,52 @@
   font-size: 1.5rem;
 }
 
-.userData{
+
+@media screen and (max-width: 895px) {
+  .avatarCol{
+    display: none;
+  }
+
+  .avatarInline{
+    display: none;
+  }
+}
+
+@media screen and (min-width: 1328px) {
+  .avatarInline{
+    display: none;
+  }
+}
+
+@media screen and (max-width: 1327px) and (min-width: 895px) {
+  .avatarCol{
+    display: none;
+  }
+}
+
+.userData {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  padding-bottom: 1rem;
 }
 
-.userText{
-  display: flex;
-  flex-direction: column;
+
+@media screen and (min-width: 1328px) {
+  .userData {
+    height: 400px;
+  }
+}
+
+
+@media screen and (max-width: 895px) {
+.userData {
+    height: 300px
+  }
+}
+
+@media screen and (max-width: 1327px) and (min-width: 895px) {
+  .userData {
+    height: 375px
+  }
 }

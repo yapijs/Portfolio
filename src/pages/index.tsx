@@ -13,7 +13,7 @@ import reformatWeeks, {
   Weeks,
 } from "../lib/calendar/calendar";
 import MyCalendar from "../components/calendar";
-import { Typography, Col, Row, Space } from "antd";
+import { Typography, Col, Row, Space, Avatar, Divider } from "antd";
 
 // const style: React.CSSProperties = { background: "#0092ff", padding: "8px 0px" };
 const { Title, Text } = Typography;
@@ -57,37 +57,37 @@ export default function Home(props: Props) {
     <div className={styles.container}>
       <Head>
         <title>Dāvis portfolio</title>
-        <meta name="description" content="Next.js app by Dāvis" />
+        <meta name="portfolio" content="Next.js app by Dāvis" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main className={styles.main}>
-        <Space direction="vertical" align="center" size="large">
-          <Row
-            className="row"
-            justify={"space-between"}
-            gutter={[24, { xs: 8, md: 24 }]}
-          >
-            <Col className="col" flex="auto">
-              <div
-                className="profile-pic"
-                style={{
-                  width: 400,
-                  height: 400,
-                  backgroundImage: `url("/me.png")`,
-                  borderRadius: 8,
-                  backgroundPositionX: -100,
-                  backgroundSize: "cover",
-                }}
-              ></div>
+        <Space direction="vertical" align="start" size={64}>
+          <Row justify={"space-between"} gutter={32}>
+            <Col className={styles.avatarCol}>
+              <Avatar
+                src="/me.png"
+                shape="square"
+                size={400}
+                style={{ borderRadius: "10px" }}
+              ></Avatar>
             </Col>
             <Col className={styles.userData}>
-              <div className={styles.userText}>
-                <Text className={styles.title}>{props.username}</Text>
+              <Space direction="vertical">
+                <Space>
+                  <Avatar
+                    className={styles.avatarInline}
+                    src="/me.png"
+                    shape="square"
+                    size={100}
+                    style={{ borderRadius: "10px" }}
+                  ></Avatar>
+                  <Text className={styles.title}>{props.username}</Text>
+                </Space>
                 <Text className={styles.description}>
                   Some text describing me
                 </Text>
-              </div>
+              </Space>
               <MyCalendar contributions={props.dataContributions}></MyCalendar>
             </Col>
           </Row>
